@@ -1,0 +1,13 @@
+[package]
+categories = ["data-structures"]
+description = "Simple function wrappers that do not require virtual tables."
+edition = "2021"
+keywords = ["type-erasure", "virtual-table"]
+license = "MIT"
+name = "simple-ref-fn"
+readme = "README.md"
+repository = "https://github.com/EFanZh/simple-ref-fn"
+version = "0.1.0"
+
+[dev-dependencies]
+static_assertions = "1"
