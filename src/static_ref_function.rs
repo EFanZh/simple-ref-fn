@@ -10,12 +10,12 @@ pub trait StaticRefFunction<'a, D, T> {
     fn call(data: &'a D, arg: T) -> Self::Output;
 
     /// A helper function to create a [`RefFn`] object with the defined function.
-    fn bind(data: &'a D) -> RefFn<T, Self::Output> {
+    fn bind(data: &'a D) -> RefFn<'a, T, Self::Output> {
         RefFn::new::<Self, D>(data)
     }
 
     /// A helper function to create a [`RefSyncFn`] object with the defined function.
-    fn bind_sync(data: &'a D) -> RefSyncFn<T, Self::Output>
+    fn bind_sync(data: &'a D) -> RefSyncFn<'a, T, Self::Output>
     where
         D: Sync,
     {
@@ -23,13 +23,13 @@ pub trait StaticRefFunction<'a, D, T> {
     }
 }
 
-impl<T, F, R> StaticRefFunction<'_, F, T> for F
+impl<'a, T, F, R> StaticRefFunction<'a, F, T> for F
 where
     F: Fn(T) -> R,
 {
     type Output = R;
 
-    fn call(data: &Self, arg: T) -> Self::Output {
+    fn call(data: &'a Self, arg: T) -> Self::Output {
         (*data)(arg)
     }
 }

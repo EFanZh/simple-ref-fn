@@ -62,30 +62,30 @@
 )]
 #![allow(clippy::non_ascii_literal)]
 
-//! This crate provides type-erased function wrappers that behaves like `&dyn Fn(T) -> U` and `&mut dyn FnMut(T) -> U`,
+//! This crate provides type-erased function wrappers that behave like `&dyn Fn(T) -> R` and `&mut dyn FnMut(T) -> R`,
 //! but do not require compiler to generate virtual tables.
 //!
 //! The following wrapper types are provided:
 //!
-//! | Type                       | Behaves like                         | [`Send`] | [`Sync`] |
-//! | -------------------------- | ------------------------------------ | -------- | -------- |
-//! | [`RefFn<'a, T, R>`]        | [`&'a dyn Fn(T) -> R`]               | No       | No       |
-//! | [`RefSyncFn<'a, T, R>`]    | [`&'a dyn Fn(T) -> R + Sync`]        | Yes      | Yes      |
-//! | [`RefFnMut<'a, T, R>`]     | [`&'a mut dyn FnMut(T) -> R`]        | No       | Yes      |
-//! | [`RefSendFnMut<'a, T, R>`] | [`&'a mut dyn FnMut(T) -> R + Send`] | Yes      | Yes      |
+//! | Type                       | Behaves like                           | [`Send`] | [`Sync`] |
+//! | -------------------------- | -------------------------------------- | -------- | -------- |
+//! | [`RefFn<'a, T, R>`]        | [`&'a dyn Fn(T) -> R`]                 | No       | No       |
+//! | [`RefSyncFn<'a, T, R>`]    | [`&'a (dyn Fn(T) -> R + Sync)`]        | Yes      | Yes      |
+//! | [`RefFnMut<'a, T, R>`]     | [`&'a mut dyn FnMut(T) -> R`]          | No       | Yes      |
+//! | [`RefSendFnMut<'a, T, R>`] | [`&'a mut (dyn FnMut(T) -> R + Send)`] | Yes      | Yes      |
 //!
 //! [`RefFn<'a, T, R>`]: `RefFn`
 //! [`RefSyncFn<'a, T, R>`]: `RefSyncFn`
 //! [`RefFnMut<'a, T, R>`]: `RefFnMut`
 //! [`RefSendFnMut<'a, T, R>`]: `RefSendFnMut`
 //! [`&'a dyn Fn(T) -> R`]: `Fn`
-//! [`&'a dyn Fn(T) -> R + Sync`]: `Fn`
+//! [`&'a (dyn Fn(T) -> R + Sync)`]: `Fn`
 //! [`&'a mut dyn FnMut(T) -> R`]: `FnMut`
-//! [`&'a mut dyn FnMut(T) -> R + Send`]: `FnMut`
+//! [`&'a mut (dyn FnMut(T) -> R + Send)`]: `FnMut`
 //!
-//! ## Example
+//! ## Examples
 //!
-//! ### Binding a function with a reference
+//! ### Bind a function with a reference
 //!
 //! ```rust
 //! use simple_ref_fn::{RefFn, StaticRefFunction};
@@ -112,7 +112,7 @@
 //! assert_eq!(f.call(7), 9);
 //! ```
 //!
-//! ### Create from closure
+//! ### Erase the type of a closure
 //!
 //! ```rust
 //! use simple_ref_fn::RefFn;

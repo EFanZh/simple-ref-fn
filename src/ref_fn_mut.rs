@@ -10,7 +10,8 @@ where
     F::call_mut(unsafe { data.cast().as_mut() }, arg)
 }
 
-/// A simple function wrapper that behaves like a [`&mut dyn FnMut(T) -> R`](`FnMut`) type, but does not require a virtual table.
+/// A simple function wrapper that behaves like a [`&mut dyn FnMut(T) -> R`](`FnMut`) type, but does not require a
+/// virtual table.
 pub struct RefFnMut<'a, T, R> {
     data: NonNull<()>,
     call_mut_fn: unsafe fn(NonNull<()>, T) -> R,

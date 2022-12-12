@@ -10,12 +10,12 @@ pub trait StaticRefMutFunction<'a, D, T> {
     fn call_mut(data: &'a mut D, arg: T) -> Self::Output;
 
     /// A helper function to create a [`RefFnMut`] object with the defined function.
-    fn bind(data: &'a mut D) -> RefFnMut<T, Self::Output> {
+    fn bind(data: &'a mut D) -> RefFnMut<'a, T, Self::Output> {
         RefFnMut::new::<Self, D>(data)
     }
 
     /// A helper function to create a [`RefSendFnMut`] object with the defined function.
-    fn bind_send(data: &'a mut D) -> RefSendFnMut<T, Self::Output>
+    fn bind_send(data: &'a mut D) -> RefSendFnMut<'a, T, Self::Output>
     where
         D: Send,
     {
@@ -23,13 +23,13 @@ pub trait StaticRefMutFunction<'a, D, T> {
     }
 }
 
-impl<T, F, R> StaticRefMutFunction<'_, F, T> for F
+impl<'a, T, F, R> StaticRefMutFunction<'a, F, T> for F
 where
     F: FnMut(T) -> R,
 {
     type Output = R;
 
-    fn call_mut(data: &mut Self, arg: T) -> Self::Output {
+    fn call_mut(data: &'a mut Self, arg: T) -> Self::Output {
         (*data)(arg)
     }
 }

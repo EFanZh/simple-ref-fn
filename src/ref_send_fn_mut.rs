@@ -1,13 +1,15 @@
 use crate::ref_fn_mut::RefFnMut;
 use crate::static_ref_mut_function::StaticRefMutFunction;
 
-/// A simple function wrapper that behaves like a [`&mut dyn FnMut(T) -> R + Send`](`FnMut`) type, but does not require a virtual table.
+/// A simple function wrapper that behaves like a [`&mut (dyn FnMut(T) -> R + Send)`](`FnMut`) type, but does not
+/// require a virtual table.
 pub struct RefSendFnMut<'a, T, R> {
     inner: RefFnMut<'a, T, R>,
 }
 
 impl<'a, T, R> RefSendFnMut<'a, T, R> {
-    /// Create a [`RefSendFnMut`] object by binding [`F::call_mut`](`StaticRefMutFunction::call_mut`) function with `data`.
+    /// Create a [`RefSendFnMut`] object by binding [`F::call_mut`](`StaticRefMutFunction::call_mut`) function with
+    /// `data`.
     pub fn new<F, D>(data: &'a mut D) -> Self
     where
         F: StaticRefMutFunction<'a, D, T, Output = R> + ?Sized,

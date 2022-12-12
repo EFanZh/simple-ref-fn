@@ -7,7 +7,7 @@ license = "MIT"
 name = "simple-ref-fn"
 readme = "README.md"
 repository = "https://github.com/EFanZh/simple-ref-fn"
-version = "0.1.0"
+version = "0.1.1"
 
 [dev-dependencies]
 static_assertions = "1"
