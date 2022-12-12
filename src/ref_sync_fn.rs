@@ -1,8 +1,8 @@
 use crate::ref_fn::RefFn;
 use crate::static_ref_function::StaticRefFunction;
 
-/// A simple function wrapper that behaves like a [`&dyn Fn(T) -> R + Sync`](`Fn`) type, but does not require a virtual
-/// table.
+/// A simple function wrapper that behaves like a [`&(dyn Fn(T) -> R + Sync)`](`Fn`) type, but does not require a
+/// virtual table.
 pub struct RefSyncFn<'a, T, R> {
     inner: RefFn<'a, T, R>,
 }
